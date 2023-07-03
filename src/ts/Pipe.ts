@@ -1,17 +1,30 @@
+import { Game } from "./Game";
+
 export class Pipe {
-    constructor(game, image, scale, speed, offset) {
-        this.game = game;
+    score: boolean = false;
+    x: number = 0;
+    y: number = 0;
+    width: number = 26;
+    height: number = 160;
+    gap: number = 65;
+
+    private sx: number = 56;
+    private sy: number = 323;
+    private ctx: CanvasRenderingContext2D|null;
+    private canvas: HTMLCanvasElement;
+    private image: CanvasImageSource;
+    private offset: number;
+    private scale: number;
+    private speed: number;
+    
+    constructor(game: Game, image: CanvasImageSource, scale: number, speed: number, offset: number) {
         this.ctx = game.ctx;
         this.canvas = game.canvas;
         this.image = image;
         this.offset = offset;
-        this.sx = 56;
-        this.sy = 323;
-        this.width = 26;
-        this.height = 160;
         this.scale = scale;
         this.speed = speed;
-        this.gap = 65 * this.scale;
+        this.gap = this.gap * this.scale;
         this.reset();
     }
 
@@ -22,15 +35,15 @@ export class Pipe {
         this.score = true;
     }
 
-    update() {
-        this.x -= this.speed;
+    update( frameAdjustment:number ) {
+        this.x -= this.speed * frameAdjustment;
         if ( this.x + this.width * this.scale < 0 ) {
             this.reset();
         }
     }
 
     draw() {
-        this.ctx.drawImage(
+        this.ctx?.drawImage(
             this.image,
             this.sx,
             this.sy,
@@ -42,7 +55,7 @@ export class Pipe {
             this.height * this.scale,
         );
 
-        this.ctx.drawImage(
+        this.ctx?.drawImage(
             this.image,
             this.sx + 28 ,
             this.sy,

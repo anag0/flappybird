@@ -1,5 +1,5 @@
 export class Input {
-    clicked = false;
+    clicked: boolean = false;
 
     constructor() {
         window.addEventListener('click', e=>{
@@ -7,7 +7,8 @@ export class Input {
         });
     }
 
-    didClick() {
+    // Resets after check
+    didClick(): boolean {
         if ( this.clicked ) {
             this.clicked = false;
             return true;

@@ -1,5 +1,22 @@
+import { Game } from "./Game";
+
+type SCoordinates = Array<{
+    sx: number,
+    sy: number
+}>
+
 export class Score {
-    digits = [
+    x: number = 0;
+    y: number = 0;
+    width: number = 12;
+    height: number = 18;
+
+    private game: Game;
+    private ctx: CanvasRenderingContext2D|null;
+    private image: CanvasImageSource;
+    private scale: number;
+
+    private digits: SCoordinates = [
         {sx:496 , sy: 60},
         {sx:136 , sy: 455},
         {sx:292 , sy: 160},
@@ -11,13 +28,10 @@ export class Score {
         {sx:320 , sy: 184},
         {sx:334 , sy: 184},
     ]
-    constructor(game, image, scale) {
+    constructor(game: Game, image: CanvasImageSource, scale: number) {
         this.game = game;
         this.ctx = game.ctx;
-        this.canvas = game.canvas;
         this.image = image;
-        this.width = 12;
-        this.height = 18;
         this.scale = scale;
         this.y = this.game.canvas.height / 10;
     }
@@ -28,7 +42,7 @@ export class Score {
         const str = this.game.score.toString();
         for ( let i=0; i<str.length; i++ ) {
             const v = parseInt(str[i]);
-            this.ctx.drawImage(
+            this.ctx?.drawImage(
                 this.image,
                 this.digits[v].sx,
                 this.digits[v].sy,
