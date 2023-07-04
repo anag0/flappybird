@@ -85,7 +85,7 @@ export class Game {
             this.startTime = Date.now();
             this.bird.jump();
         }
-        if ( !this.bird.collided() ) {
+        if ( !this.ended && !this.bird.collided() ) {
             if ( this.started ) {
                 this.bgLayer.update(frameAdjustment);
                 this.bottomLayer.update(frameAdjustment);

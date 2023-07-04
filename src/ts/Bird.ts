@@ -25,6 +25,7 @@ export class Bird {
 
     private flapSound: HTMLAudioElement;
     private scoreSound: HTMLAudioElement;
+    private hitSound: HTMLAudioElement;
 
     private state = BirdStates.falling;
 
@@ -40,6 +41,7 @@ export class Bird {
         this.gravity = gravity;
         this.flapSound = new Audio("./sounds/fly.mp3");
         this.scoreSound = new Audio("./sounds/score.mp3");
+        this.hitSound = new Audio("./sounds/hit.mp3");
     }
 
     update( frameAdjustment:number, deltaTime: number, input: Input ): void {
@@ -87,6 +89,7 @@ export class Bird {
                     top < pipe.y + (pipe.height *this.scale) ||
                     bottom > ( pipe.y + (pipe.height *this.scale) + pipe.gap )
                 ) {
+                    this.hitSound.play();
                     return true;
                 }
             } else if ( (pipe.x + pipe.width*this.scale) - 5 < left ) {
@@ -100,6 +103,7 @@ export class Bird {
 
         // Floor
         if ( this.y + this.height * this.scale > 200 * this.scale ) {
+            this.hitSound.play();
             return true;
         }
 
