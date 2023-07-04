@@ -12,7 +12,7 @@ export class Bird {
     private width: number = 17;
     private height: number = 12;
     private gy: number = 0;
-    private frameTime: number = 1;
+    private deltaTime: number = 1;
 
     private game: Game;
     private ctx: CanvasRenderingContext2D|null;
@@ -42,10 +42,11 @@ export class Bird {
         this.scoreSound = new Audio("./sounds/score.mp3");
     }
 
-    update( frameAdjustment:number, frameTime: number, input: Input ): void {
-        this.frameTime = this.frameTime + frameTime;
-        if ( this.frameTime > 180 ) {
-            this.frameTime = 0;
+    update( frameAdjustment:number, deltaTime: number, input: Input ): void {
+        this.deltaTime = this.deltaTime + deltaTime;
+        // Bird flapping animation
+        if ( this.deltaTime > 180 ) {
+            this.deltaTime = 0;
             this.sx = this.sx >= 51 ? 3 : this.sx + 28; 
         }
  
@@ -54,8 +55,15 @@ export class Bird {
         }
 
         if ( this.state == "jumping" ) {
-            this.gy = this.gy - (this.canvas.height * this.gravity * frameAdjustment);
+            let speed = this.canvas.height * this.gravity * ( frameAdjustment / 2 );
+            /**
+             * What's this abomination? Why apply half of the speed twice?
+             * It is to counteract linear acceleration on different FPS.
+             * Watch this video: https://www.youtube.com/watch?v=yGhfUcPjXuE
+             */
+            this.gy -= speed;
             this.y -= this.gy * frameAdjustment;
+            this.gy -= speed;
         }
     }
 

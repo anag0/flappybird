@@ -11,6 +11,8 @@ export class Game {
     scale: number = 2; // Scale (zoom) for width/height
     gravity: number = 0.0008; // relative to the canvas height pull
     started: boolean = false;
+    ended: boolean = false;
+    startTime: number = 0;
     speed: number = 1.8;
     score: number = 0;
     canvas: HTMLCanvasElement;
@@ -22,6 +24,13 @@ export class Game {
     private bgLayer: Layer;
     private bottomLayer: Layer;
     private scoreObj: Score;
+
+    /**
+     * Ok, I don't like to multiply by deltaTime, sue me.
+     * Instead I expect a 60 framerate and adjust the frames by
+     * the actual framerate and expected framerate ratio.
+     * It's the same as deltaTime, but you get a lower number.
+     */
     private expectedFPS: number = 60;
     private expectedFrameTime: number = 1000/this.expectedFPS;
 
@@ -67,12 +76,13 @@ export class Game {
         this.scoreObj = new Score(this, sprite, this.scale);
     }
 
-    update(frameTime: number): void {
+    update(deltaTime: number): void {
         // If the FPS is not 60 then the calculations need to be adjusted
-        const frameAdjustment = frameTime / this.expectedFrameTime;
+        const frameAdjustment = deltaTime / this.expectedFrameTime;
 
         if ( !this.started && this.input.didClick() ) {
             this.started = true;
+            this.startTime = Date.now();
             this.bird.jump();
         }
         if ( !this.bird.collided() ) {
@@ -80,12 +90,16 @@ export class Game {
                 this.bgLayer.update(frameAdjustment);
                 this.bottomLayer.update(frameAdjustment);
             }
-            this.bird.update(frameAdjustment, frameTime, this.input);
+            this.bird.update(frameAdjustment, deltaTime, this.input);
             if ( this.started ) {
                 for ( const pipe of this.pipes ) {
                     pipe.update(frameAdjustment);
                 }
             }
+        } else if ( !this.ended ) {
+            this.ended = true;
+            // This is useful for testing at different framerates
+            console.log('Game Time: ', (Date.now() - this.startTime)/1000, 's');
         }
     }
 

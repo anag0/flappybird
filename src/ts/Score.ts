@@ -1,9 +1,10 @@
 import { Game } from "./Game";
 
-type SCoordinates = Array<{
-    sx: number,
-    sy: number
-}>
+type Coordinates = {
+    x: number,
+    y: number
+}
+type CoordinatesArray = Array<Coordinates>
 
 export class Score {
     x: number = 0;
@@ -16,17 +17,17 @@ export class Score {
     private image: CanvasImageSource;
     private scale: number;
 
-    private digits: SCoordinates = [
-        {sx:496 , sy: 60},
-        {sx:136 , sy: 455},
-        {sx:292 , sy: 160},
-        {sx:306 , sy: 160},
-        {sx:320 , sy: 160},
-        {sx:334 , sy: 160},
-        {sx:292 , sy: 184},
-        {sx:306 , sy: 184},
-        {sx:320 , sy: 184},
-        {sx:334 , sy: 184},
+    private digits: CoordinatesArray = [
+        {x:496 , y: 60},
+        {x:136 , y: 455},
+        {x:292 , y: 160},
+        {x:306 , y: 160},
+        {x:320 , y: 160},
+        {x:334 , y: 160},
+        {x:292 , y: 184},
+        {x:306 , y: 184},
+        {x:320 , y: 184},
+        {x:334 , y: 184},
     ]
     constructor(game: Game, image: CanvasImageSource, scale: number) {
         this.game = game;
@@ -44,8 +45,8 @@ export class Score {
             const v = parseInt(str[i]);
             this.ctx?.drawImage(
                 this.image,
-                this.digits[v].sx,
-                this.digits[v].sy,
+                this.digits[v].x,
+                this.digits[v].y,
                 this.width,
                 this.height,
                 (this.game.canvas.width - (this.width * this.scale) * str.length ) / 2 + (this.width * this.scale) * i,

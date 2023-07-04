@@ -10,25 +10,12 @@ class App {
     }
 
     run( currentTime: number ) {
-        let frameTime: number = currentTime - this.previousTime;
+        const deltaTime: number = currentTime - this.previousTime;
         this.previousTime = currentTime;
-        this.game.update(frameTime);
+        this.game.update(deltaTime);
         this.game.draw();
         requestAnimationFrame(this.run.bind(this));
     }
 }
 
 new App();
-
-/*const flappyBird: Game = new Game( document.getElementById('game') as HTMLCanvasElement );
-
-let previousTime: number = 0; 
-function run( currentTime: number ): void {
-    let frameTime: number = currentTime - previousTime;
-    previousTime = currentTime;
-    flappyBird.update(frameTime);
-    flappyBird.draw();
-    requestAnimationFrame(run);
-}
-
-run(0);*/
