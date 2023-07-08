@@ -35,7 +35,9 @@ export class Game {
     private expectedFrameTime: number = 1000/this.expectedFPS;
 
     constructor( canvas: HTMLCanvasElement ) {
-        const sprite = document.getElementById('sprite') as CanvasImageSource;
+        const image = new Image(); // Create new img element
+        image.src = "./../images/sprite.png";
+        const sprite = image as CanvasImageSource;
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         canvas.width = this.width * this.scale;

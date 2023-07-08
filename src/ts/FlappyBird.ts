@@ -1,11 +1,11 @@
 import { Game } from "./Game";
 
-class App {
+class FlappyBird {
     game: Game;
     previousTime: number = 0; 
 
-    constructor() {
-        this.game = new Game( document.getElementById('game') as HTMLCanvasElement );
+    constructor( canvasID: string) {
+        this.game = new Game( document.getElementById(canvasID) as HTMLCanvasElement );
         this.run(0);
     }
 
@@ -18,4 +18,4 @@ class App {
     }
 }
 
-new App();
+export default FlappyBird;

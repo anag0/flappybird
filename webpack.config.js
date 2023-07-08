@@ -2,13 +2,13 @@ const path = require('path');
 
 module.exports = [
   {
-    entry: './src/ts/App.ts',
+    entry: './src/ts/FlappyBird.ts',
     module: {
         rules: [
             {
-            test: /\.ts?$/,
-            use: 'ts-loader',
-            exclude: /node_modules/,
+                test: /\.ts?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
             },
         ],
     },
@@ -16,7 +16,12 @@ module.exports = [
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
+        library: {
+            name: 'FlappyBird',
+            type: 'umd',
+            export: 'default'
+        },
         path: path.resolve(__dirname, 'dist'),
-        filename: 'App.js',
+        filename: 'flappybird.js',
     },
 }];
