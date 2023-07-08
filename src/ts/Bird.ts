@@ -39,9 +39,12 @@ export class Bird {
         this.x = (this.canvas.width  - this.width * scale) / 2;
         this.y = (this.canvas.height  - this.height * scale) / 2;
         this.gravity = gravity;
-        this.flapSound = new Audio("./sounds/fly.mp3");
-        this.scoreSound = new Audio("./sounds/score.mp3");
-        this.hitSound = new Audio("./sounds/hit.mp3");
+        //this.flapSound = new Audio("./sounds/fly.mp3");
+        this.flapSound = new Audio(new URL("./../../sounds/fly.mp3", import.meta.url).href);
+        //this.scoreSound = new Audio("./sounds/score.mp3");
+        this.scoreSound = new Audio(new URL("./../../sounds/score.mp3", import.meta.url).href);
+        //this.hitSound = new Audio("./sounds/hit.mp3");
+        this.hitSound = new Audio(new URL("./../../sounds/hit.mp3", import.meta.url).href);
     }
 
     update( frameAdjustment:number, deltaTime: number, input: Input ): void {

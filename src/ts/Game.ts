@@ -36,7 +36,7 @@ export class Game {
 
     constructor( canvas: HTMLCanvasElement ) {
         const image = new Image(); // Create new img element
-        image.src = "./../images/sprite.png";
+        image.src = new URL("./../../images/sprite.png", import.meta.url).href;
         const sprite = image as CanvasImageSource;
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');

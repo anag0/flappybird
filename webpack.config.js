@@ -16,6 +16,7 @@ module.exports = [
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
+        publicPath: 'dist/',
         library: {
             name: 'FlappyBird',
             type: 'umd',

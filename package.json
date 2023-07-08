@@ -1,13 +1,10 @@
 {
     "name": "flappybird-ts",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Flappy Bird game written in TypeScript",
     "main": "dist/flappybird.js",
     "files": [
-      "dist",
-      "images",
-      "sounds",
-      "index.html"
+      "dist"
     ],
     "scripts": {
       "build": "webpack --mode=production --node-env=production",
