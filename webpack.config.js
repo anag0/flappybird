@@ -10,13 +10,16 @@ module.exports = [
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
+            {
+                test: /\.(png|jpg|gif|mp3|wav)$/i,
+                type: "asset/inline",
+            },
         ],
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
-        publicPath: 'dist/',
         library: {
             name: 'FlappyBird',
             type: 'umd',
