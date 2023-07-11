@@ -12,7 +12,7 @@ module.exports = [
             },
             {
                 test: /\.(png|jpg|gif|mp3|wav)$/i,
-                type: "asset/inline",
+                type: "asset/resource",
             },
         ],
     },
@@ -20,6 +20,7 @@ module.exports = [
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
+        publicPath: 'auto',
         library: {
             name: 'FlappyBird',
             type: 'umd',

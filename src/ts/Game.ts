@@ -3,6 +3,7 @@ import { Bird } from "./Bird";
 import { Input } from "./Input"; 
 import { Pipe } from "./Pipe";
 import { Score } from "./Score";
+import Sprite from "./../../images/sprite.png";
 
 
 export class Game {
@@ -36,7 +37,7 @@ export class Game {
 
     constructor( canvas: HTMLCanvasElement ) {
         const image = new Image(); // Create new img element
-        image.src = new URL("./../../images/sprite.png", import.meta.url).href;
+        image.src = Sprite;
         const sprite = image as CanvasImageSource;
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');

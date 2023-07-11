@@ -1,5 +1,8 @@
 import { Game } from "./Game";
 import { Input } from "./Input";
+import FlapSound from "./../../sounds/fly.mp3";
+import ScoreSound from "./../../sounds/score.mp3";
+import HitSound from "./../../sounds/hit.mp3";
 
 enum BirdStates {
     jumping = "jumping",
@@ -40,11 +43,15 @@ export class Bird {
         this.y = (this.canvas.height  - this.height * scale) / 2;
         this.gravity = gravity;
         //this.flapSound = new Audio("./sounds/fly.mp3");
-        this.flapSound = new Audio(new URL("./../../sounds/fly.mp3", import.meta.url).href);
+        //this.flapSound = new Audio(new URL("./../../sounds/fly.mp3", import.meta.url).href);
+        this.flapSound = new Audio(FlapSound);
         //this.scoreSound = new Audio("./sounds/score.mp3");
-        this.scoreSound = new Audio(new URL("./../../sounds/score.mp3", import.meta.url).href);
+        //this.scoreSound = new Audio(new URL("./../../sounds/score.mp3", import.meta.url).href);
+        this.scoreSound = new Audio(ScoreSound);
         //this.hitSound = new Audio("./sounds/hit.mp3");
-        this.hitSound = new Audio(new URL("./../../sounds/hit.mp3", import.meta.url).href);
+        //this.hitSound = new Audio(new URL("./../../sounds/hit.mp3", import.meta.url).href);
+        this.hitSound = new Audio(HitSound);
+        
     }
 
     update( frameAdjustment:number, deltaTime: number, input: Input ): void {
