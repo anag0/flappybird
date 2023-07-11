@@ -12,7 +12,7 @@ module.exports = [
             },
             {
                 test: /\.(png|jpg|gif|mp3|wav)$/i,
-                type: "asset/resource",
+                type: "asset/inline",
             },
         ],
     },

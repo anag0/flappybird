@@ -1,6 +1,6 @@
 {
     "name": "flappybird-ts",
-    "version": "0.1.3",
+    "version": "0.1.5",
     "description": "Flappy Bird game written in TypeScript",
     "main": "dist/flappybird.js",
     "files": [
