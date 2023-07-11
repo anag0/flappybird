@@ -1,5 +1,6 @@
 import { Game } from "./Game";
 import { Input } from "./Input";
+import { Pipe } from "./Pipe";
 import FlapSound from "./../../sounds/fly.mp3";
 import ScoreSound from "./../../sounds/score.mp3";
 import HitSound from "./../../sounds/hit.mp3";
@@ -10,38 +11,42 @@ enum BirdStates {
 }
 
 export class Bird {
-    private sx: number = 3;
-    private sy: number = 491;
-    private width: number = 17;
-    private height: number = 12;
-    private gy: number = 0;
-    private deltaTime: number = 1;
+    score: number = 0;
+    protected lastScored: number = 0;
+    protected sx: number = 3;
+    protected sy: number = 491;
+    protected width: number = 17;
+    protected height: number = 12;
+    protected gy: number = 0;
+    protected deltaTime: number = 1;
 
-    private game: Game;
-    private ctx: CanvasRenderingContext2D|null;
-    private canvas: HTMLCanvasElement;
-    private image: CanvasImageSource;
-    private x: number;
-    private y: number;
-    private scale: number;
-    private gravity: number;
+    protected game: Game;
+    protected ctx: CanvasRenderingContext2D|null;
+    protected canvas: HTMLCanvasElement;
+    protected image: CanvasImageSource;
+    protected x: number;
+    protected y: number;
+    protected scale: number;
+    protected gravity: number;
+    protected jumpHeight: number;
 
-    private flapSound: HTMLAudioElement;
-    private scoreSound: HTMLAudioElement;
-    private hitSound: HTMLAudioElement;
+    protected flapSound: HTMLAudioElement;
+    protected scoreSound: HTMLAudioElement;
+    protected hitSound: HTMLAudioElement;
 
-    private state = BirdStates.falling;
+    protected state = BirdStates.falling;
 
 
-    constructor(game: Game, image: CanvasImageSource, scale: number, gravity: number) {
+    constructor(game: Game) {
         this.game = game;
         this.ctx = game.ctx;
         this.canvas = game.canvas;
-        this.image = image;
-        this.scale = scale;
-        this.x = (this.canvas.width  - this.width * scale) / 2;
-        this.y = (this.canvas.height  - this.height * scale) / 2;
-        this.gravity = gravity;
+        this.image = game.sprite;
+        this.scale = game.scale;
+        this.x = (this.canvas.width  - this.width * game.scale) / 2;
+        this.y = (this.canvas.height  - this.height * game.scale) / 2;
+        this.gravity = game.gravity;
+        this.jumpHeight = (this.canvas.height / 70) * this.canvas.height * this.gravity * 30 ;
         //this.flapSound = new Audio("./sounds/fly.mp3");
         //this.flapSound = new Audio(new URL("./../../sounds/fly.mp3", import.meta.url).href);
         this.flapSound = new Audio(FlapSound);
@@ -56,6 +61,8 @@ export class Bird {
 
     update( frameAdjustment:number, deltaTime: number, input: Input ): void {
         this.deltaTime = this.deltaTime + deltaTime;
+        this.lastScored += deltaTime;
+
         // Bird flapping animation
         if ( this.deltaTime > 180 ) {
             this.deltaTime = 0;
@@ -87,6 +94,7 @@ export class Bird {
     }
 
     collided(): boolean {
+        //return false;
         // Pipes
         for ( const pipe of this.game.pipes ) {
             const left = this.x,
@@ -102,12 +110,11 @@ export class Bird {
                     this.hitSound.play();
                     return true;
                 }
-            } else if ( (pipe.x + pipe.width*this.scale) - 5 < left ) {
-                if ( pipe.score ) {
-                    this.game.score++;
-                    pipe.score = false;
-                    this.scoreSound.play();
-                }
+            } else if ( 
+                (pipe.x + pipe.width*this.scale) - 5 < left &&
+                (pipe.x + pipe.width*this.scale) > left
+            ) {
+                this.scored();
             }   
         }
 
@@ -118,6 +125,13 @@ export class Bird {
         }
 
         return false;
+    }
+
+    scored(): void {
+        if ( this.lastScored > ( 1000 / this.game.speed ) ) {
+            this.score++;
+            this.lastScored = 0;
+        }
     }
 
     draw(): void {
